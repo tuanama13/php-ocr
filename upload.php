@@ -58,6 +58,7 @@ if (isset($_FILES['image'])) {
       lines
     }
   }) => {
+    console.log(lines);
     document.getElementById("result").innerHTML = text;
     let data_text = JSON.stringify(lines);
     localStorage.setItem('lines', data_text);
