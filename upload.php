@@ -36,7 +36,9 @@
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <script src='./tesseract.min.js'></script>
+  <!-- <script src='./tesseract.min.js'></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/2.1.4/tesseract.min.js"></script>
+
   <script src='./caman.full.min.js'></script>
   <script>
     let image = "<?php echo 'image/' . $file_name; ?>";
@@ -45,7 +47,6 @@
 
     const worker = createWorker(
       {
-        langPath: "./traineddata",
         gzip: false, 
         logger: m => {
             m.workerId ? document.getElementById("file").value = m.progress : 0
@@ -60,6 +61,7 @@
       await worker.setParameters({
         tessedit_char_whitelist: '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRSTUVYZXW-/: .,',
       });
+      await worker.detect(image);
       const { data: { text,lines } } = await worker.recognize(image);
       document.getElementById("result").innerHTML = extractText(lines);
       console.log(lines);
